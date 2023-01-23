@@ -1,9 +1,14 @@
 {
-  "posts": [
+  "users": [
     {
       "id": 1,
-      "title": "quasar",
-      "author": "rafael rocha"
+      "name": "rafael rocha",
+      "email": "teste@email.com"
+    },
+    {
+      "id": 2,
+      "name": "rafael rocha",
+      "email": "teste@email.com"
     }
   ]
 }

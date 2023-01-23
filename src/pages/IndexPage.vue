@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
     <q-table
-      title="Treats"
+      title="Users"
       :rows="rows"
       :columns="columns"
       row-key="name"
@@ -13,7 +13,7 @@
             color="negative"
             dense
             size="sm"
-            @:click="removePosts(props.row.id)"
+            @:click="removeUser(props.row.id)"
           />
         </q-td>
       </template>
@@ -23,29 +23,31 @@
 
 <script>
 import { defineComponent, onMounted, ref } from 'vue';
-import postsService from 'src/services/posts';
+import usersService from 'src/services/users';
+import { useQuasar } from 'quasar';
 
 export default defineComponent({
   name: 'IndexPage',
   setup() {
-    const { get, remove } = postsService();
+    const { get, remove } = usersService();
     const rows = ref([]);
     const columns = [
       {
         name: 'id', label: 'Id', field: 'id', align: 'left', sortable: true,
       },
       {
-        name: 'title', label: 'Title', field: 'title', align: 'left', sortable: true,
+        name: 'name', label: 'Name', field: 'name', align: 'left', sortable: true,
       },
       {
-        name: 'author', label: 'Author', field: 'author', align: 'left', sortable: true,
+        name: 'email', label: 'Email', field: 'email', align: 'left', sortable: true,
       },
       {
         name: 'actions', label: 'Actions', field: 'actions', align: 'right',
       },
     ];
+    const $q = useQuasar();
 
-    const getPosts = async () => {
+    const getUsers = async () => {
       try {
         const data = await get();
         rows.value = data;
@@ -54,23 +56,29 @@ export default defineComponent({
       }
     };
 
-    const removePosts = async (id) => {
+    const removeUser = async (id) => {
       try {
-        await remove(id);
-        await getPosts();
+        $q.dialog({
+          title: 'Remover Usuário',
+          message: 'Deseja remover esse usuário?',
+        }).onOk(async () => {
+          await remove(id);
+          $q.notify({ message: 'Usuário removido com sucesso!', color: 'positive', icon: 'check' });
+          await getUsers();
+        });
       } catch (error) {
-        throw new Error(error);
+        $q.notify({ message: error, color: 'negative', icon: 'info' });
       }
     };
 
     onMounted(() => {
-      getPosts();
+      getUsers();
     });
 
     return {
       rows,
       columns,
-      removePosts,
+      removeUser,
     };
   },
 
