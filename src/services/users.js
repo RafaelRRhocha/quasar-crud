@@ -2,7 +2,7 @@ import useApi from 'src/composables/UseApi';
 
 export default function usersService() {
   const {
-    get, post, update, remove,
+    get, post, update, remove, getById,
   } = useApi('users');
 
   return {
@@ -10,5 +10,6 @@ export default function usersService() {
     post,
     update,
     remove,
+    getById,
   };
 }
