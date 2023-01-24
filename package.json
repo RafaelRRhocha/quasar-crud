@@ -6,6 +6,7 @@
   "author": "RafaelRRhocha <1rafaelrocha2@gmail.com>",
   "private": true,
   "scripts": {
+    "dev": "quasar dev",
     "start": "json-server --watch db.json",
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0"

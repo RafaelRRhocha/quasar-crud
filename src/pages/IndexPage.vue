@@ -6,6 +6,11 @@
       :columns="columns"
       row-key="name"
     >
+    <template v-slot:top>
+      <h5 class="text-h5 text-weight-medium q-my-sm">Users</h5>
+      <q-space />
+      <q-btn color="positive" :disable="loading" label="new user" :to="{ name: 'formUsers'}" />
+    </template>
     <template v-slot:body-cell-actions="props">
         <q-td :props="props">
           <q-btn
@@ -52,7 +57,7 @@ export default defineComponent({
         const data = await get();
         rows.value = data;
       } catch (error) {
-        throw new Error(error);
+        $q.notify({ message: error, color: 'negative', icon: 'info' });
       }
     };
 
